@@ -2,6 +2,7 @@ package com.monkey.sorts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 /**
@@ -28,31 +29,33 @@ public class T56MergeIntervals {
             return new int[0][2];
         }
 
+        // 排序
         Arrays.sort(intervals, new Comparator<int[]>() {
             public int compare(int[] o1, int[] o2) {
                 return o1[0] - o2[0];
             }
         });
 
+        // 合并
         ArrayList<int[]> merged = new ArrayList<int[]>();
         for (int[] interval : intervals) {
+
             int left = interval[0];
             int right = interval[1];
 
-            if (merged.size() == 0 || merged.get(merged.size() - 1)[1] < left) {
-                merged.add(new int[]{left, right});
+            if (merged.isEmpty() || merged.get(merged.size() - 1)[1] < left) {
+                merged.add(interval);
             } else {
                 merged.get(merged.size() - 1)[1] = Math.max(merged.get(merged.size() - 1)[1], right);
             }
         }
-
         return merged.toArray(new int[merged.size()][]);
     }
 
     public static void main(String[] args) {
         T56MergeIntervals t56MergeIntervals = new T56MergeIntervals();
         
-        int[][] intervals = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+        int[][] intervals = {{1, 3}, {2, 6}, {8, 10}, {15, 18}, {1, 4}, {7, 8}};
         System.out.println(Arrays.deepToString(t56MergeIntervals.merge(intervals)));
     }
 }
