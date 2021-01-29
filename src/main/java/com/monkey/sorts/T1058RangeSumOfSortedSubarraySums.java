@@ -1,5 +1,7 @@
 package com.monkey.sorts;
 
+import java.util.Arrays;
+
 /**
  * 给你一个数组nums，它包含 n 个正整数。你需要计算所有非空连续子数组的和，并将它们按升序排序，得到一个新的包含 n * (n + 1) / 2 个数字的数组。
  *
@@ -26,16 +28,26 @@ package com.monkey.sorts;
 public class T1058RangeSumOfSortedSubarraySums {
 
     public int rangeSum(int[] nums, int n, int left, int right) {
+        final int MODULO = 1000000007;
 
-        // 1. 找到所有子数组的和
-        // 2. 排序
-        // 3. 求和
+        // 一共 n * (n + 1) / 2 个数组
+        int sumsLength = n * (n + 1) / 2;
 
-
-
-
-
-        return 0;
+        int[] sums = new int[sumsLength];
+        int index = 0;
+        for (int i = 0; i < n; i++) {
+            int sum = 0;
+            for (int j = i; j < n; j++) {
+                sum += nums[j];
+                sums[index++] = sum;
+            }
+        }
+        Arrays.sort(sums);
+        int ans = 0;
+        for (int i = left - 1; i < right; i++) {
+            ans = (ans + sums[i]) % MODULO;
+        }
+        return ans;
     }
 
 }
